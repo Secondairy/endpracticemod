@@ -1,6 +1,6 @@
-package me.logwet.noverworld.mixin.client;
+package me.secondairy.endpractice.mixin.client;
 
-import me.logwet.noverworld.Noverworld;
+import me.secondairy.endpractice.Endpractice;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.hud.DebugHud;
@@ -20,6 +20,6 @@ public class DebugHudMixin {
      */
     @Inject(at = @At("RETURN"), method = "getLeftText", cancellable = true)
     private void addDebugLineMixin(CallbackInfoReturnable<List<String>> info) {
-        info.getReturnValue().add("Noverworld mod v" + Noverworld.VERSION + " by logwet");
+        info.getReturnValue().add("Endpractice mod v" + Endpractice.VERSION + " by Secondairy");
     }
 }

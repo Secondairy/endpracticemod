@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "id": "noverworld",
+  "id": "endpractice",
   "version": "${version}",
-  "accessWidener": "noverworld.accesswidener",
-  "name": "Noverworld",
-  "description": "Spawn in the nether with a set of items. Made by logwet, designed by k4yfour, idea by Fyroah.",
+  "accessWidener": "endpractice.accesswidener",
+  "name": "Endpractice",
+  "description": "Spawn in the end with a set of items. forked from Noverworld by logwet, Modified by Secondairy",
   "authors": [
-    "logwet"
+    "Secondairy"
   ],
   "contact": {
-    "homepage": "https://github.com/logwet/noverworld",
-    "sources": "https://github.com/logwet/noverworld"
+    "homepage": "https://github.com/secondairy/endpractice",
+    "sources": "https://github.com/secondairy/endpractice"
   },
   "license": "GPL-3.0",
-  "icon": "assets/noverworld/icon.png",
+  "icon": "assets/endpractice/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
-      "me.logwet.noverworld.NoverworldClient"
+      "me.secondairy.endpractice.EndpracticeClient"
     ],
     "server": [
-      "me.logwet.noverworld.NoverworldServer"
+      "me.secondairy.endpractice.EndpracticeServer"
     ]
   },
   "mixins": [
-    "noverworld.mixins.json"
+    "endpractice.mixins.json"
   ],
 
   "depends": {

@@ -1,22 +1,12 @@
 {
-  "spawnShiftRange": [
-    50,
-    150
-  ],
-  "spawnYHeightDistribution": {
-    "7-13": 80,
-    "14-59": 5,
-    "60-75": 10,
-    "76-90": 5
-  },
-  "playerAttributes": {
-    "health": 20.0,
-    "hunger": 20.0,
-    "saturation": 0.0
-  },
-  "inventory": [
+    "playerAttributes": {
+      "health": 20.0,
+      "hunger": 20.0,
+      "saturation": 0.0
+    },
+   "inventory": [
     {
-      "name": "wooden_axe",
+      "name": "iron_axe",
       "count": "1-1",
       "damage": 10,
       "slot": 0,
@@ -77,38 +67,45 @@
     },
     {
       "name": "stick",
-      "count": "2-2",
+      "count": "3-3",
       "slot": 8,
       "editable": true,
       "unique": true
     },
     {
-      "name": "iron_ingot",
-      "count": "1-1",
-      "slot": 9,
-      "editable": true,
-      "unique": true
-    },
-    {
-      "name": "gravel",
-      "count": "2-2",
+      "name": "string",
+      "count": "64-64",
       "slot": 10,
       "editable": true,
       "unique": true
     },
     {
-      "name": "magma_block",
-      "count": "1-1",
+      "name": "glowstone_dust",
+      "count": "64-64",
       "slot": 11,
       "editable": true,
       "unique": true
     },
     {
-      "name": "cobblestone",
-      "count": "1-1",
+      "name": "crying_obsidian",
+      "count": "20-20",
       "slot": 12,
       "editable": true,
       "unique": true
+    },
+    {
+       "name": "obsidian",
+       "count": "3-3",
+       "slot": 13,
+       "editable": true,
+       "unique": true
+     },
+    {
+       "name": "arrow",
+       "count": "32-32",
+       "slot": 14,
+       "editable": true,
+       "unique": true
     },
     {
       "name": "bread",

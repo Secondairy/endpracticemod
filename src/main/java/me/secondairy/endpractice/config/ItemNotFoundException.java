@@ -1,4 +1,4 @@
-package me.logwet.noverworld.config;
+package me.secondairy.endpractice.config;
 
 public class ItemNotFoundException extends Exception {
     public ItemNotFoundException(String message) {

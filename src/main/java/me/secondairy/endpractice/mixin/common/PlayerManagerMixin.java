@@ -1,6 +1,6 @@
-package me.logwet.noverworld.mixin.common;
+package me.secondairy.endpractice.mixin.common;
 
-import me.logwet.noverworld.Noverworld;
+import me.secondairy.endpractice.Endpractice;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -13,6 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerManagerMixin {
     @Inject(at = @At("TAIL"), method = "Lnet/minecraft/server/PlayerManager;onPlayerConnect(Lnet/minecraft/network/ClientConnection;Lnet/minecraft/server/network/ServerPlayerEntity;)V")
     public void onPlayerConnect(ClientConnection connection, ServerPlayerEntity player, CallbackInfo ci) {
-        Noverworld.onServerJoin(player);
+        Endpractice.onServerJoin(player);
     }
 }

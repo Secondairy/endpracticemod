@@ -1,6 +1,6 @@
-package me.logwet.noverworld.mixin.client;
+package me.secondairy.endpractice.mixin.client;
 
-import me.logwet.noverworld.NoverworldClient;
+import me.secondairy.endpractice.EndpracticeClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -17,7 +17,7 @@ public class MinecraftClientMixin {
     @Inject(at = @At("TAIL"), method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;)V")
     private void disconnect(Screen screen, CallbackInfo ci) {
         if (screen instanceof SaveLevelScreen) {
-            NoverworldClient.resetOptions();
+            EndpracticeClient.resetOptions();
         }
     }
 }

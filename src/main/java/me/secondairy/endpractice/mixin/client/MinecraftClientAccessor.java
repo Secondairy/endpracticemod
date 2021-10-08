@@ -1,4 +1,4 @@
-package me.logwet.noverworld.mixin.client;
+package me.secondairy.endpractice.mixin.client;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

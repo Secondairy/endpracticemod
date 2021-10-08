@@ -1,4 +1,4 @@
-package me.logwet.noverworld.mixin.common;
+package me.secondairy.endpractice.mixin.common;
 
 import net.minecraft.entity.player.HungerManager;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,7 +1,7 @@
-package me.logwet.noverworld.mixin.client;
+package me.secondairy.endpractice.mixin.client;
 
-import me.logwet.noverworld.Noverworld;
-import me.logwet.noverworld.NoverworldClient;
+import me.secondairy.endpractice.Endpractice;
+import me.secondairy.endpractice.EndpracticeClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -17,11 +17,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ClientPlayNetworkHandlerMixin {
     @Inject(at = @At("TAIL"), method = "onGameJoin")
     private void onGameJoin(GameJoinS2CPacket packet, CallbackInfo ci) {
-        Noverworld.log(Level.INFO, "Connected Clientside");
+        Endpractice.log(Level.INFO, "Connected Clientside");
 
-        Noverworld.refreshConfigs();
+        Endpractice.refreshConfigs();
 
-        NoverworldClient.saveOldOptions();
-        NoverworldClient.onClientJoin();
+        EndpracticeClient.saveOldOptions();
+        EndpracticeClient.onClientJoin();
     }
 }

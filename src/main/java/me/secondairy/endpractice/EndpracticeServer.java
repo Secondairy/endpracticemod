@@ -1,15 +1,15 @@
-package me.logwet.noverworld;
+package me.secondairy.endpractice;
 
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 @Environment(EnvType.SERVER)
-public class NoverworldServer implements DedicatedServerModInitializer {
+public class EndpracticeServer implements DedicatedServerModInitializer {
     @Override
     public void onInitializeServer() {
-        Noverworld.onInitialize();
+        Endpractice.onInitialize();
 
-        Noverworld.commonConfigHandler();
+        Endpractice.commonConfigHandler();
     }
 }

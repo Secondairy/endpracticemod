@@ -1,4 +1,4 @@
-package me.logwet.noverworld.config;
+package me.secondairy.endpractice.config;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -8,14 +8,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class NoverworldConfig {
+public class EndpracticeConfig {
     private boolean f3Enabled = true;
 
     private boolean recipeBookEnabled = true;
 
     private List<UserConfigInventoryItemEntry> inventory;
 
-    public NoverworldConfig() {
+    public EndpracticeConfig() {
         inventory = new ArrayList<>();
     }
 

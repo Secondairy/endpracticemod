@@ -1,13 +1,12 @@
-package me.logwet.noverworld;
+package me.secondairy.endpractice;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.brigadier.StringReader;
-import me.logwet.noverworld.config.*;
-import me.logwet.noverworld.mixin.common.HungerManagerAccessor;
-import me.logwet.noverworld.mixin.common.ServerPlayerEntityAccessor;
-import me.logwet.noverworld.config.ItemNotFoundException;
-import me.logwet.noverworld.util.WeightedCollection;
+import me.secondairy.endpractice.config.*;
+import me.secondairy.endpractice.mixin.common.HungerManagerAccessor;
+import me.secondairy.endpractice.mixin.common.ServerPlayerEntityAccessor;
+import me.secondairy.endpractice.config.ItemNotFoundException;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.advancement.criterion.Criteria;
@@ -24,8 +23,6 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
@@ -45,39 +42,35 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-public class Noverworld {
-    public static final String VERSION = FabricLoader.getInstance().getModContainer("noverworld").get().getMetadata().getVersion().getFriendlyString();
+public class Endpractice {
+    public static final String VERSION = FabricLoader.getInstance().getModContainer("endpractice").get().getMetadata().getVersion().getFriendlyString();
 
 //	I would like to use this first implementation as it is the suggested and recommended way of doing things with fabric.
 //	Unfortunately, it has strange behaviour in my dev environment I don't have the time to trouble shoot
-//	public static final Path CONFIG_FILE_PATH = FabricLoader.getInstance().getConfigDir().resolve("noverworld.json");
+//	public static final Path CONFIG_FILE_PATH = FabricLoader.getInstance().getConfigDir().resolve("endpractice.json");
 
-    public static final Path CONFIG_FILE_PATH = Paths.get("config/noverworld-" + VERSION + ".json").toAbsolutePath();
+    public static final Path CONFIG_FILE_PATH = Paths.get("config/endpractice-" + VERSION + ".json").toAbsolutePath();
 
     public static final boolean IS_CLIENT = FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
 
-    private static final Logger logger = LogManager.getLogger("Noverworld");
+    private static final Logger logger = LogManager.getLogger("Endpractice");
     private static final Set<Item> requiredItems = new HashSet<>();
-    public static NoverworldConfig config;
+    public static EndpracticeConfig config;
     private static FixedConfig fixedConfig;
     private static boolean newWorld = false;
     private static Set<UUID> initializedPlayers;
     private static MinecraftServer MS;
     private static Random randomInstance;
-    private static WeightedCollection<int[]> spawnYHeightSets;
     private static List<InventoryItemEntry> uniqueFixedConfigItems;
     private static List<InventoryItemEntry> nonUniqueFixedConfigItems;
-    private static int[] possibleSpawnShifts;
-    private static Map<String, Integer> spawnYHeightDistribution;
     private static Map<String, Float> playerAttributes;
 
-    private static float spawnYaw = 0;
-    private static BlockPos spawnPos = new BlockPos(0, 9, 0);
+    private static final float spawnYaw = 0;
+    private static final BlockPos spawnPos = new BlockPos(100, 49, 0);
 
     public static void log(Level level, String message) {
-        logger.log(level, "[Noverworld v" + VERSION + "] " + message);
+        logger.log(level, "[Endpractice v" + VERSION + "] " + message);
     }
 
     public static void playerLog(Level level, String message, @NotNull ServerPlayerEntity serverPlayerEntity) {
@@ -89,7 +82,7 @@ public class Noverworld {
     }
 
     public static void setNewWorld(boolean newWorld) {
-        Noverworld.newWorld = newWorld;
+        Endpractice.newWorld = newWorld;
     }
 
     @NotNull
@@ -98,7 +91,7 @@ public class Noverworld {
     }
 
     public static void setInitializedPlayers(Set<UUID> initializedPlayers) {
-        Noverworld.initializedPlayers = initializedPlayers;
+        Endpractice.initializedPlayers = initializedPlayers;
     }
 
     private static void clearInitializedPlayers() {
@@ -127,7 +120,7 @@ public class Noverworld {
 
     @NotNull
     private static Random newRandomInstance() {
-        long rawSeed = Objects.requireNonNull((Long) getOverworld().getSeed());
+        long rawSeed = getOverworld().getSeed();
         String rawSeedString = Long.toString(rawSeed);
         long seed;
         StringBuilder seedString = new StringBuilder();
@@ -159,31 +152,20 @@ public class Noverworld {
 
     private static void resetRandoms() {
         randomInstance = newRandomInstance();
-
-        spawnPos = new BlockPos(
-                100,
-                49,
-                0
-        );
-
         log(Level.INFO, "Reset randoms using world seed");
     }
 
 
     public static void onInitialize() {
-        log(Level.INFO, "Using Noverworld v" + Noverworld.VERSION + " by logwet!");
+        log(Level.INFO, "Using Endpractice v" + Endpractice.VERSION + " by Secondairy!");
     }
 
     public static void readFixedConfigs() {
         fixedConfig = new Gson().fromJson(new InputStreamReader(Objects.requireNonNull(
-                Noverworld.class.getResourceAsStream("/fixed_config.json"))), FixedConfig.class);
+                Endpractice.class.getResourceAsStream("/fixed_config.json"))), FixedConfig.class);
 
         uniqueFixedConfigItems = fixedConfig.getUniqueItems();
         nonUniqueFixedConfigItems = fixedConfig.getNonUniqueItems();
-
-        possibleSpawnShifts = IntStream.range(fixedConfig.getSpawnShiftRange()[0], fixedConfig.getSpawnShiftRange()[1]).toArray();
-
-        spawnYHeightDistribution = fixedConfig.getSpawnYHeightDistribution();
 
         playerAttributes = fixedConfig.getPlayerAttributes();
 
@@ -191,12 +173,12 @@ public class Noverworld {
     }
 
     private static void readConfig() throws FileNotFoundException {
-        config = new Gson().fromJson(new FileReader(CONFIG_FILE_PATH.toFile()), NoverworldConfig.class);
+        config = new Gson().fromJson(new FileReader(CONFIG_FILE_PATH.toFile()), EndpracticeConfig.class);
     }
 
     private static void saveConfig() {
         try {
-            config = new NoverworldConfig();
+            config = new EndpracticeConfig();
 
             config.setInventory(uniqueFixedConfigItems
                     .stream()
@@ -253,7 +235,7 @@ public class Noverworld {
         name = Objects.requireNonNull(name).toLowerCase();
         String finalName = name;
         try {
-            Item item = (Item) Registry.ITEM
+            Item item = Registry.ITEM
                     .getOrEmpty(new Identifier(name))
                     .orElseThrow(() -> new ItemNotFoundException("Item " + finalName + " not found in registry!"));
             requiredItems.add(item);
@@ -388,7 +370,7 @@ public class Noverworld {
         serverPlayerEntity.world.getGameRules().get(GameRules.ANNOUNCE_ADVANCEMENTS).set(true, null);
     }
 
-    private static void sendToNether(ServerPlayerEntity serverPlayerEntity) {
+    private static void sendtoEnd(ServerPlayerEntity serverPlayerEntity) {
         serverPlayerEntity.sendMessage(new LiteralText("Please wait for chunks at target to be generated. Don't open your inventory.").formatted(Formatting.RED), true);
 
         serverPlayerEntity.refreshPositionAndAngles(spawnPos, spawnYaw, 0);
@@ -401,7 +383,7 @@ public class Noverworld {
 
         serverPlayerEntity.sendMessage(new LiteralText(""), true);
 
-        playerLog(Level.INFO, "Sent to nether", serverPlayerEntity);
+        playerLog(Level.INFO, "Sent to the end", serverPlayerEntity);
     }
 
     private static void setSpawnPoint(ServerPlayerEntity serverPlayerEntity) {
@@ -431,7 +413,7 @@ public class Noverworld {
         if (isNewWorld() && getInitializedPlayers().add(serverPlayerEntity.getUuid())) {
             playerLog(Level.INFO, "Player connected and recognised", serverPlayerEntity);
 
-            sendToNether(serverPlayerEntity);
+            sendtoEnd(serverPlayerEntity);
             setSpawnPoint(serverPlayerEntity);
             setPlayerInventory(serverPlayerEntity);
             openRecipeBook(serverPlayerEntity);
@@ -441,7 +423,7 @@ public class Noverworld {
 
             playerLog(Level.INFO, "Finished server side actions", serverPlayerEntity);
         } else {
-            playerLog(Level.INFO, "Noverworld will not handle player", serverPlayerEntity);
+            playerLog(Level.INFO, "Endpractice will not handle player", serverPlayerEntity);
         }
     }
 
@@ -449,7 +431,6 @@ public class Noverworld {
         boolean worldIsNew = getOverworld().getTime() == 0;
         setNewWorld(worldIsNew);
 
-        spawnPos = new BlockPos(0, 9, 0);
         clearInitializedPlayers();
 
         if (worldIsNew) {

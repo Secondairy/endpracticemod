@@ -1,4 +1,4 @@
-package me.logwet.noverworld.config;
+package me.secondairy.endpractice.config;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -1,4 +1,4 @@
-package me.logwet.noverworld.mixin.common;
+package me.secondairy.endpractice.mixin.common;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

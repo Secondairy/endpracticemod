@@ -1,6 +1,6 @@
-package me.logwet.noverworld.mixin.server;
+package me.secondairy.endpractice.mixin.server;
 
-import me.logwet.noverworld.Noverworld;
+import me.secondairy.endpractice.Endpractice;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.server.MinecraftServer;
@@ -15,6 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MinecraftDedicatedServerMixin {
     @Inject(at = @At("HEAD"), method = "setupServer")
     private void setupServer(CallbackInfoReturnable<Boolean> cir) {
-        Noverworld.setMS((MinecraftServer) (Object) this);
+        Endpractice.setMS((MinecraftServer) (Object) this);
     }
 }
