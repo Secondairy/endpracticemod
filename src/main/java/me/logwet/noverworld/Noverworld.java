@@ -116,23 +116,13 @@ public class Noverworld {
     }
 
     @NotNull
-    public static BlockPos getWorldSpawn() {
-        return Objects.requireNonNull(getMS().getOverworld().getSpawnPos());
-    }
-
-    @NotNull
-    public static ChunkPos getWorldSpawnChunk() {
-        return new ChunkPos(getWorldSpawn());
-    }
-
-    @NotNull
     private static ServerWorld getOverworld() {
         return Objects.requireNonNull(getMS().getOverworld());
     }
 
     @NotNull
-    private static ServerWorld getNether() {
-        return Objects.requireNonNull(getMS().getWorld(World.NETHER));
+    private static ServerWorld getEnd() {
+        return Objects.requireNonNull(getMS().getWorld(World.END));
     }
 
     @NotNull
@@ -170,48 +160,15 @@ public class Noverworld {
     private static void resetRandoms() {
         randomInstance = newRandomInstance();
 
-        spawnYHeightSets = new WeightedCollection<>(randomInstance);
-        spawnYHeightDistribution.forEach((rawRange, weight) -> {
-            String[] stringRange = rawRange.split("-");
-            spawnYHeightSets.add(weight, IntStream.range(Integer.parseInt(stringRange[0]), Integer.parseInt(stringRange[1])).toArray());
-        });
-
-        spawnYaw = getRandomAngle();
-
-        float spawnShiftAngle = getRandomAngle();
-        float spawnShiftLength;
-
-        try {
-            spawnShiftLength = (float) possibleSpawnShifts[randomInstance.nextInt(possibleSpawnShifts.length)];
-        } catch (Exception e) {
-            spawnShiftLength = 0;
-        }
-
-        float spawnShiftAngleRadians = spawnShiftAngle * 0.017453292F;
-
-        int yHeight = getSpawnYHeight();
-
-        BlockPos worldSpawn = getWorldSpawn();
-
         spawnPos = new BlockPos(
-                worldSpawn.getX() - Math.round(spawnShiftLength * MathHelper.sin(spawnShiftAngleRadians)),
-                yHeight,
-                worldSpawn.getZ() + Math.round(spawnShiftLength * MathHelper.cos(spawnShiftAngleRadians))
+                100,
+                49,
+                0
         );
 
         log(Level.INFO, "Reset randoms using world seed");
     }
 
-    @NotNull
-    private static Integer getSpawnYHeight() {
-        int[] heightSet = spawnYHeightSets.next();
-        return heightSet[randomInstance.nextInt(heightSet.length)];
-    }
-
-    @NotNull
-    private static Float getRandomAngle() {
-        return (float) Math.floor((-180f + randomInstance.nextFloat() * 360f) * 100) / 100;
-    }
 
     public static void onInitialize() {
         log(Level.INFO, "Using Noverworld v" + Noverworld.VERSION + " by logwet!");
@@ -437,12 +394,10 @@ public class Noverworld {
         serverPlayerEntity.refreshPositionAndAngles(spawnPos, spawnYaw, 0);
         serverPlayerEntity.setVelocity(Vec3d.ZERO);
 
-        serverPlayerEntity.setInNetherPortal(spawnPos);
 
         playerLog(Level.INFO, "Attemping spawn at " + spawnPos.toShortString() + " with yaw " + serverPlayerEntity.yaw, serverPlayerEntity);
 
-        serverPlayerEntity.changeDimension(getNether());
-        serverPlayerEntity.netherPortalCooldown = serverPlayerEntity.getDefaultNetherPortalCooldown();
+        serverPlayerEntity.changeDimension(getEnd());
 
         serverPlayerEntity.sendMessage(new LiteralText(""), true);
 
